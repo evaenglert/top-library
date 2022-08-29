@@ -1,20 +1,47 @@
 
 FORMOPEN = false;
 
-harryPotter = new Book('J.K.Rowling', 'Harry Potter', 545, true);
-grokkingAlgorithms = new Book('Aditya Bhargava', 'Grokking Algorithms', 354, false);
+let myLibrary = [];
+harryPotter = new Book('J.K.Rowling', 'Harry Potter', 545, true, myLibrary);
+grokkingAlgorithms = new Book('Aditya Bhargava', 'Grokking Algorithms', 354, false, myLibrary);
+myLibrary.push(harryPotter);
+myLibrary.push(grokkingAlgorithms);
 
-let myLibrary = [harryPotter, grokkingAlgorithms];
 console.log(myLibrary);
 
-libraryDisplay = document.querySelector('.main-content');
+libraryDisplay = document.querySelector('.books');
 newBookButton = document.querySelector('.new-book');
 
 function createBookCard(book) {
-  newElement = document.createElement('p');
-  newElement.textContent = book.author + " " + book.title;
+  //TODO: make this nice looking
+
+
+  newElement = document.createElement('div');
+  newElement.setAttribute('class', 'card');
+  author = document.createElement('p');
+  author.textContent = book.author;
+  title = document.createElement('p');
+  title.textContent = book.title;
+  pages = document.createElement('p');
+  pages.textContent = book.totalPages + " pages";
+  haveRead = document.createElement('p');
+  if (book.hasRead) {
+    haveRead.textContent = "Have read this book";
+  }
+  else { haveRead.textContent = "Haven't read this book";}
+
+  removeButton = document.createElement('button');
+  removeButton.textContent = 'Remove book';
+
+  newElement.appendChild(author);
+  newElement.appendChild(title);
+  newElement.appendChild(pages);
+  newElement.appendChild(haveRead);
+  newElement.appendChild(removeButton);
+
   libraryDisplay.appendChild(newElement);
 }
+
 function updateLibaryDisplay() {
   for (let i = 0; i < myLibrary.length; i++) {
     book = myLibrary[i];
@@ -109,12 +136,13 @@ function closeForm() {
 updateLibaryDisplay();
 newBookButton.addEventListener("click", newForm);
 
-function Book(author, title, totalPages, hasRead) {
+function Book(author, title, totalPages, hasRead, myLibrary) {
 
   this.author = author;
   this.title = title;
   this.totalPages = totalPages;
   this.hasRead = hasRead;
+  this.data = myLibrary.length;
 }
 
 function addBookToLibrary() {
@@ -124,8 +152,10 @@ function addBookToLibrary() {
   totalPages = document.querySelector('#pages').value;
   hasRead = document.querySelector('#has-read').value;
 
-  newBook = new Book(author, title, totalPages, hasRead);
+  newBook = new Book(author, title, totalPages, hasRead, myLibrary);
   myLibrary.push(newBook);
+  // newBook.data = myLibrary.length;
   createBookCard(newBook);
   closeForm();
+  console.log(myLibrary);
 }
