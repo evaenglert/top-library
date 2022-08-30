@@ -2,8 +2,9 @@
 FORMOPEN = false;
 
 let myLibrary = [];
-harryPotter = new Book('J.K.Rowling', 'Harry Potter', 545, true, myLibrary);
-grokkingAlgorithms = new Book('Aditya Bhargava', 'Grokking Algorithms', 354, false, myLibrary);
+index = 0;
+harryPotter = new Book('J.K.Rowling', 'Harry Potter', 545, true);
+grokkingAlgorithms = new Book('Aditya Bhargava', 'Grokking Algorithms', 354, false);
 myLibrary.push(harryPotter);
 myLibrary.push(grokkingAlgorithms);
 
@@ -12,32 +13,56 @@ console.log(myLibrary);
 libraryDisplay = document.querySelector('.books');
 newBookButton = document.querySelector('.new-book');
 
-function createBookCard(book) {
+function BookCard(book) {
   //TODO: make this nice looking
-
 
   newElement = document.createElement('div');
   newElement.setAttribute('class', 'card');
-  author = document.createElement('p');
-  author.textContent = book.author;
-  title = document.createElement('p');
-  title.textContent = book.title;
-  pages = document.createElement('p');
-  pages.textContent = book.totalPages + " pages";
-  haveRead = document.createElement('p');
+  newElement.setAttribute('data', book.data);
+  this.author = document.createElement('p');
+  this.author.textContent = book.author;
+  this.title = document.createElement('p');
+  this.title.textContent = book.title;
+  this.pages = document.createElement('p');
+  this.pages.textContent = book.totalPages + " pages";
+  this.haveRead = document.createElement('p');
   if (book.hasRead) {
-    haveRead.textContent = "Have read this book";
+    this.haveRead.textContent = "Have read this book";
   }
-  else { haveRead.textContent = "Haven't read this book";}
+  else { this.haveRead.textContent = "Haven't read this book"; }
 
-  removeButton = document.createElement('button');
-  removeButton.textContent = 'Remove book';
+  this.removeButton = document.createElement('button');
+  this.removeButton.textContent = 'Remove book';
+  this.removeButton.addEventListener("click", (e) => { e.target.parentElement.remove() });
 
-  newElement.appendChild(author);
-  newElement.appendChild(title);
-  newElement.appendChild(pages);
-  newElement.appendChild(haveRead);
-  newElement.appendChild(removeButton);
+
+  this.switchElement = document.createElement('label');
+  this.switchElement.setAttribute('class', 'switch');
+  checkBox = document.createElement('input');
+  checkBox.setAttribute('type', 'checkbox');
+  if (book.hasRead) { checkBox.checked = true}
+
+  slider = document.createElement('span');
+  slider.setAttribute('class', 'slider round');
+
+  checkBox.addEventListener('click', (e) => {
+    book.hasRead = !book.hasRead;
+    if (book.hasRead) {
+      this.haveRead.textContent = "Have read this book";
+    }
+    else { this.haveRead.textContent = "Haven't read this book"; }
+  });
+
+  this.switchElement.appendChild(checkBox);
+  this.switchElement.appendChild(slider);
+
+
+  newElement.appendChild(this.author);
+  newElement.appendChild(this.title);
+  newElement.appendChild(this.pages);
+  newElement.appendChild(this.haveRead);
+  newElement.appendChild(this.removeButton);
+  newElement.appendChild(this.switchElement);
 
   libraryDisplay.appendChild(newElement);
 }
@@ -45,9 +70,10 @@ function createBookCard(book) {
 function updateLibaryDisplay() {
   for (let i = 0; i < myLibrary.length; i++) {
     book = myLibrary[i];
-    createBookCard(book);
+    new BookCard(book);
   }
 }
+
 
 function newForm() {
   if (FORMOPEN == false) {
@@ -136,13 +162,15 @@ function closeForm() {
 updateLibaryDisplay();
 newBookButton.addEventListener("click", newForm);
 
-function Book(author, title, totalPages, hasRead, myLibrary) {
+function Book(author, title, totalPages, hasRead) {
 
   this.author = author;
   this.title = title;
   this.totalPages = totalPages;
   this.hasRead = hasRead;
-  this.data = myLibrary.length;
+  this.data = index;
+
+  index = index + 1;
 }
 
 function addBookToLibrary() {
@@ -152,10 +180,10 @@ function addBookToLibrary() {
   totalPages = document.querySelector('#pages').value;
   hasRead = document.querySelector('#has-read').value;
 
-  newBook = new Book(author, title, totalPages, hasRead, myLibrary);
+  newBook = new Book(author, title, totalPages, hasRead);
   myLibrary.push(newBook);
-  // newBook.data = myLibrary.length;
-  createBookCard(newBook);
+
+  new BookCard(newBook);
   closeForm();
   console.log(myLibrary);
 }
