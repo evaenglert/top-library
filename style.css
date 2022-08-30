@@ -23,6 +23,9 @@ form {
 
 .card {
   /* height: 100px; */
+  display: flex;
+  flex-direction: column;
+
   padding: 10px;
   width: 200px;
   background-color: rgb(255, 255, 255);
@@ -30,13 +33,25 @@ form {
   border-top: 5px solid blue;
 }
 
+button {
+  background-color: #2196F3;
+  border-radius: 5px;
+  border: 0px;
+}
+
+
+.read-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
 
 /* The switch - the box around the slider */
 .switch {
   position: relative;
   display: inline-block;
-  width: 60px;
-  height: 34px;
+  width: 45px;
+  height: 16px;
 }
 
 /* Hide default HTML checkbox */
@@ -50,6 +65,7 @@ form {
 .slider {
   position: absolute;
   cursor: pointer;
+  height: 16px;
   top: 0;
   left: 0;
   right: 0;
@@ -62,8 +78,8 @@ form {
 .slider:before {
   position: absolute;
   content: "";
-  height: 26px;
-  width: 26px;
+  height: 10px;
+  width: 10px;
   left: 4px;
   bottom: 4px;
   background-color: white;

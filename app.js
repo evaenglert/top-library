@@ -32,6 +32,7 @@ function BookCard(book) {
   else { this.haveRead.textContent = "Haven't read this book"; }
 
   this.removeButton = document.createElement('button');
+  this.removeButton.setAttribute('class', 'remove-button');
   this.removeButton.textContent = 'Remove book';
   this.removeButton.addEventListener("click", (e) => { e.target.parentElement.remove() });
 
@@ -56,13 +57,18 @@ function BookCard(book) {
   this.switchElement.appendChild(checkBox);
   this.switchElement.appendChild(slider);
 
+  haveReadContainer = document.createElement('div');
+  haveReadContainer.setAttribute('class', 'read-container');
+
+  haveReadContainer.appendChild(this.haveRead);
+  haveReadContainer.appendChild(this.switchElement);
+
 
   newElement.appendChild(this.author);
   newElement.appendChild(this.title);
   newElement.appendChild(this.pages);
-  newElement.appendChild(this.haveRead);
+  newElement.appendChild(haveReadContainer);
   newElement.appendChild(this.removeButton);
-  newElement.appendChild(this.switchElement);
 
   libraryDisplay.appendChild(newElement);
 }
