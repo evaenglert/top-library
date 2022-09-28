@@ -1,10 +1,21 @@
-
 FORMOPEN = false;
+
+class Book {
+  constructor(author, title, totalPages, hasRead) {
+    this.author = author;
+    this.title = title;
+    this.totalPages = totalPages;
+    this.hasRead = hasRead;
+    this.data = index;
+  }
+
+  index = index + 1;
+}
 
 let myLibrary = [];
 index = 0;
-harryPotter = new Book('J.K.Rowling', 'Harry Potter', 545, true);
-grokkingAlgorithms = new Book('Aditya Bhargava', 'Grokking Algorithms', 354, false);
+let harryPotter = new Book('J.K.Rowling', 'Harry Potter', 545, true);
+let grokkingAlgorithms = new Book('Aditya Bhargava', 'Grokking Algorithms', 354, false);
 myLibrary.push(harryPotter);
 myLibrary.push(grokkingAlgorithms);
 
@@ -13,64 +24,66 @@ console.log(myLibrary);
 libraryDisplay = document.querySelector('.books');
 newBookButton = document.querySelector('.new-book');
 
-function BookCard(book) {
-  //TODO: make this nice looking
 
-  newElement = document.createElement('div');
-  newElement.setAttribute('class', 'card');
-  newElement.setAttribute('data', book.data);
-  this.author = document.createElement('p');
-  this.author.textContent = book.author;
-  this.title = document.createElement('p');
-  this.title.textContent = book.title;
-  this.pages = document.createElement('p');
-  this.pages.textContent = book.totalPages + " pages";
-  this.haveRead = document.createElement('p');
-  if (book.hasRead) {
-    this.haveRead.textContent = "Have read this book";
-  }
-  else { this.haveRead.textContent = "Haven't read this book"; }
-
-  this.removeButton = document.createElement('button');
-  this.removeButton.setAttribute('class', 'remove-button');
-  this.removeButton.textContent = 'Remove book';
-  this.removeButton.addEventListener("click", (e) => { e.target.parentElement.remove() });
-
-
-  this.switchElement = document.createElement('label');
-  this.switchElement.setAttribute('class', 'switch');
-  checkBox = document.createElement('input');
-  checkBox.setAttribute('type', 'checkbox');
-  if (book.hasRead) { checkBox.checked = true}
-
-  slider = document.createElement('span');
-  slider.setAttribute('class', 'slider round');
-
-  checkBox.addEventListener('click', (e) => {
-    book.hasRead = !book.hasRead;
+// This is a constructor!!
+class BookCard {
+  constructor(book) {
+    let newElement = document.createElement('div');
+    newElement.setAttribute('class', 'card');
+    newElement.setAttribute('data', book.data);
+    this.author = document.createElement('p');
+    this.author.textContent = book.author;
+    this.title = document.createElement('p');
+    this.title.textContent = book.title;
+    this.pages = document.createElement('p');
+    this.pages.textContent = book.totalPages + " pages";
+    this.haveRead = document.createElement('p');
     if (book.hasRead) {
       this.haveRead.textContent = "Have read this book";
     }
     else { this.haveRead.textContent = "Haven't read this book"; }
-  });
 
-  this.switchElement.appendChild(checkBox);
-  this.switchElement.appendChild(slider);
-
-  haveReadContainer = document.createElement('div');
-  haveReadContainer.setAttribute('class', 'read-container');
-
-  haveReadContainer.appendChild(this.haveRead);
-  haveReadContainer.appendChild(this.switchElement);
+    this.removeButton = document.createElement('button');
+    this.removeButton.setAttribute('class', 'remove-button');
+    this.removeButton.textContent = 'Remove book';
+    this.removeButton.addEventListener("click", (e) => { e.target.parentElement.remove() });
 
 
-  newElement.appendChild(this.author);
-  newElement.appendChild(this.title);
-  newElement.appendChild(this.pages);
-  newElement.appendChild(haveReadContainer);
-  newElement.appendChild(this.removeButton);
+    this.switchElement = document.createElement('label');
+    this.switchElement.setAttribute('class', 'switch');
+    let checkBox = document.createElement('input');
+    checkBox.setAttribute('type', 'checkbox');
+    if (book.hasRead) { checkBox.checked = true}
 
-  libraryDisplay.appendChild(newElement);
+    let slider = document.createElement('span');
+    slider.setAttribute('class', 'slider round');
+
+    checkBox.addEventListener('click', (e) => {
+      book.hasRead = !book.hasRead;
+      if (book.hasRead) {
+        this.haveRead.textContent = "Have read this book";
+      }
+      else { this.haveRead.textContent = "Haven't read this book"; }
+    });
+
+    this.switchElement.appendChild(checkBox);
+    this.switchElement.appendChild(slider);
+
+    let haveReadContainer = document.createElement('div');
+    haveReadContainer.setAttribute('class', 'read-container');
+
+    haveReadContainer.appendChild(this.haveRead);
+    haveReadContainer.appendChild(this.switchElement);
+
+
+    newElement.appendChild(this.author);
+    newElement.appendChild(this.title);
+    newElement.appendChild(this.pages);
+    newElement.appendChild(haveReadContainer);
+    newElement.appendChild(this.removeButton);
+
+    libraryDisplay.appendChild(newElement);
+  }
 }
 
 function updateLibaryDisplay() {
@@ -80,7 +93,7 @@ function updateLibaryDisplay() {
   }
 }
 
-
+// just a normal function
 function newForm() {
   if (FORMOPEN == false) {
     FORMOPEN = true;
@@ -159,6 +172,7 @@ function newForm() {
   }
 }
 
+// just a normal function
 function closeForm() {
   form = document.querySelector('form');
   form.remove();
@@ -168,17 +182,8 @@ function closeForm() {
 updateLibaryDisplay();
 newBookButton.addEventListener("click", newForm);
 
-function Book(author, title, totalPages, hasRead) {
 
-  this.author = author;
-  this.title = title;
-  this.totalPages = totalPages;
-  this.hasRead = hasRead;
-  this.data = index;
-
-  index = index + 1;
-}
-
+// a normal function
 function addBookToLibrary() {
   // get the right info out of the form
   author = document.querySelector('#author').value;
